@@ -1,4 +1,4 @@
-package com.company.product.test.automation.ui.framework.actions;
+package com.company.test.automation.ui.framework.actions;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;

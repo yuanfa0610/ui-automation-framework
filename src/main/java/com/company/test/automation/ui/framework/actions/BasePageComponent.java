@@ -1,4 +1,4 @@
-package com.company.product.test.automation.ui.framework.actions;
+package com.company.test.automation.ui.framework.actions;
 
 import org.openqa.selenium.WebElement;
 
@@ -92,7 +92,7 @@ public interface BasePageComponent {
      * @param element web element to check
      * @return true if the element is displayed
      */
-    boolean isElementDisplayed(WebElement element);
+    boolean isElementPresent(WebElement element);
 
     /**
      * Check if element is enabled
@@ -111,41 +111,47 @@ public interface BasePageComponent {
     /**
      * Wait for web element to be visible
      * @param element web element to wait
+     * @return true if element is visible
      */
-    void waitForElementToBeVisible(WebElement element);
+    boolean waitForElementToBeVisible(WebElement element);
 
     /**
      * Wait for web element to be visible in given seconds
      * @param element web element to wait
      * @param seconds maximum seconds to wait
+     * @return true if element is visible
      */
-    void waitForElementToBeVisible(WebElement element, long seconds);
+    boolean waitForElementToBeVisible(WebElement element, long seconds);
 
     /**
      * Wait for web element to be invisible
      * @param element web element to wait
+     * @return true if element is visible
      */
-    void waitForElementToBeInvisible(WebElement element);
+    boolean waitForElementToBeInvisible(WebElement element);
 
     /**
      * Wait for web element to be invisible in given seconds
      * @param element web element to wait
      * @param seconds maximum seconds to wait
+     * @return true if element is visible
      */
-    void waitForElementToBeInvisible(WebElement element, long seconds);
+    boolean waitForElementToBeInvisible(WebElement element, long seconds);
 
     /**
      * Wait for web element to be clickable
      * @param element web element to wait
+     * @return true if element is visible
      */
-    void waitForElementToBeClickable(WebElement element);
+    boolean waitForElementToBeClickable(WebElement element);
 
     /**
      * Wait for web element to be clickable
      * @param element web element to wait
      * @param seconds maximum seconds to wait
+     * @return true if element is visible
      */
-    void waitForElementToBeClickable(WebElement element, long seconds);
+    boolean waitForElementToBeClickable(WebElement element, long seconds);
 
 
 }

@@ -1,8 +1,6 @@
-package com.company.product.test.automation.ui.framework.actions;
+package com.company.test.automation.ui.framework.actions;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -16,7 +14,7 @@ public abstract class BasePageComponentImpl<T extends BasePageComponentImpl<T>> 
 
     protected WebDriver driver;
 
-    private static final long DEFAULT_EXPLICIT_WAIT_TIME = 10000L;
+    private static final long DEFAULT_EXPLICIT_WAIT_TIME = 2L;
     private static final String SCROLL_ELEMENT_TO_TOP_JAVASCRIPT = "arguments[0].scrollIntoView();";
     private static final String IS_ELEMENT_LOADED_JAVASCRIPT = "return arguments[0].complete "
                                                              + "&& typeof arguments[0].naturalWidth != 'undefined' "
@@ -101,7 +99,12 @@ public abstract class BasePageComponentImpl<T extends BasePageComponentImpl<T>> 
     }
 
     @Override
-    public boolean isElementDisplayed(WebElement element) {
+    public boolean isElementPresent(WebElement element) {
+        try {
+            element.isDisplayed();
+        } catch (NoSuchElementException ne) {
+            return false;
+        }
         return element.isDisplayed();
     }
 
@@ -117,39 +120,69 @@ public abstract class BasePageComponentImpl<T extends BasePageComponentImpl<T>> 
     }
 
     @Override
-    public void waitForElementToBeVisible(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, DEFAULT_EXPLICIT_WAIT_TIME);
-        wait.until(ExpectedConditions.visibilityOf(element));
+    public boolean waitForElementToBeVisible(WebElement element) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, DEFAULT_EXPLICIT_WAIT_TIME);
+            wait.until(ExpectedConditions.visibilityOf(element));
+        } catch (TimeoutException te) {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void waitForElementToBeVisible(WebElement element, long seconds) {
-        WebDriverWait wait = new WebDriverWait(driver, seconds * 1000);
-        wait.until(ExpectedConditions.visibilityOf(element));
+    public boolean waitForElementToBeVisible(WebElement element, long seconds) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, seconds);
+            wait.until(ExpectedConditions.visibilityOf(element));
+        } catch (TimeoutException te) {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void waitForElementToBeInvisible(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, DEFAULT_EXPLICIT_WAIT_TIME);
-        wait.until(ExpectedConditions.invisibilityOf(element));
+    public boolean waitForElementToBeInvisible(WebElement element) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, DEFAULT_EXPLICIT_WAIT_TIME);
+            wait.until(ExpectedConditions.invisibilityOf(element));
+        } catch (TimeoutException te) {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void waitForElementToBeInvisible(WebElement element, long seconds) {
-        WebDriverWait wait = new WebDriverWait(driver, seconds * 1000);
-        wait.until(ExpectedConditions.invisibilityOf(element));
+    public boolean waitForElementToBeInvisible(WebElement element, long seconds) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, seconds);
+            wait.until(ExpectedConditions.invisibilityOf(element));
+        } catch (TimeoutException te) {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void waitForElementToBeClickable(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, DEFAULT_EXPLICIT_WAIT_TIME);
-        wait.until(ExpectedConditions.elementToBeClickable(element));
+    public boolean waitForElementToBeClickable(WebElement element) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, DEFAULT_EXPLICIT_WAIT_TIME);
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+        } catch (TimeoutException te) {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void waitForElementToBeClickable(WebElement element, long seconds) {
-        WebDriverWait wait = new WebDriverWait(driver, seconds * 1000);
-        wait.until(ExpectedConditions.elementToBeClickable(element));
+    public boolean waitForElementToBeClickable(WebElement element, long seconds) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, seconds);
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+        } catch (TimeoutException te) {
+            return false;
+        }
+        return true;
     }
 
 }

@@ -1,4 +1,4 @@
-package com.company.product.test.automation.ui.framework.utils;
+package com.company.test.automation.ui.framework.utils;
 
 public class InvalidBrowserNameException extends Exception {
 
