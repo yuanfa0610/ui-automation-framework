@@ -1,16 +1,14 @@
 package com.company.test.automation.ui.framework.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.safari.SafariDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class WebDriverFactory {
@@ -25,8 +23,12 @@ public class WebDriverFactory {
    * @throws InvalidBrowserNameException
    */
   public static RemoteWebDriver getWebDriver(AutomationConfiguration automationConfiguration) throws InvalidBrowserNameException {
+    String nodeHost = automationConfiguration.getNodeHost();
+    String nodePort = automationConfiguration.getNodePort();
     String browserName = automationConfiguration.getBrowserName();
-    String webDriverPath = automationConfiguration.getWebDriverPath();
+    String platformName = automationConfiguration.getPlatformName();
+
+    String nodeUrl = generateNodeUrl(nodeHost, nodePort);
 
     if (StringUtils.isBlank(browserName)) {
       LOG.debug("No browser name found. Using Chrome as default option");
@@ -34,28 +36,37 @@ public class WebDriverFactory {
     }
 
     RemoteWebDriver webDriver = null;
+    DesiredCapabilities capability = null;
     try {
       switch (browserName) {
         case BrowserNames.CHROME_BROWSER:
-          System.setProperty("webdriver.chrome.driver", webDriverPath + "/chromedriver");
-          webDriver = new ChromeDriver();
+          capability = DesiredCapabilities.chrome();
+          capability.setBrowserName(browserName);
+          capability.setPlatform(Platform.fromString(platformName));
           break;
         case BrowserNames.FIREFOX_BROWSER:
-          System.setProperty("webdriver.gecko.driver", webDriverPath + "/geckodriver");
-          FirefoxOptions options = new FirefoxOptions();
-          options.setCapability("marionette", false);
-          webDriver = new FirefoxDriver(options);
+          capability = DesiredCapabilities.firefox();
+          capability.setBrowserName(browserName);
+          capability.setPlatform(Platform.fromString(platformName));
           break;
         case BrowserNames.INTERNET_EXPLORER_BROWSER:
-          webDriver = new InternetExplorerDriver();
+          capability = DesiredCapabilities.internetExplorer();
+          capability.setBrowserName(browserName);
+          capability.setPlatform(Platform.fromString(platformName));
           break;
         case BrowserNames.EDGE_BROWSER:
-          webDriver = new EdgeDriver();
+          capability = DesiredCapabilities.edge();
+          capability.setBrowserName(browserName);
+          capability.setPlatform(Platform.fromString(platformName));
           break;
         case BrowserNames.SAFARI_BROWSER:
-          webDriver = new SafariDriver();
+          capability = DesiredCapabilities.safari();
+          capability.setBrowserName(browserName);
+          capability.setPlatform(Platform.fromString(platformName));
           break;
       }
+
+      webDriver = new RemoteWebDriver(new URL(nodeUrl), capability);
 
     } catch (Exception exception) {
       LOG.error(exception.getMessage());
@@ -80,6 +91,17 @@ public class WebDriverFactory {
 
     driver.manage().timeouts().implicitlyWait(implicitWaitTime, TimeUnit.SECONDS);
     driver.manage().window().maximize();
+  }
+
+  /**
+   * Generate node URL based on given host and port
+   * @param nodeHost host to connect to
+   * @param nodePort port to connect to
+   * @return node URL
+   */
+  private static String generateNodeUrl(String nodeHost, String nodePort) {
+    String nodeUrl = "http://" + nodeHost + ":" + nodePort + "/wd/hub";
+    return nodeUrl;
   }
 
 }

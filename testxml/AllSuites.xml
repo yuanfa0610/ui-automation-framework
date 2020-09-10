@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="All Test Suites">
+    <parameter name="nodeHost" value="localhost"/>
+    <parameter name="nodePort" value="4444"/>
+    <parameter name="browserName" value="chrome"/>
+    <parameter name="platformName" value="MAC"/>
+
+<test name="Sample Suite 1" thread-count="1" parallel="false">
+    <classes>
+        <class name="com.company.test.automation.ui.framework.testscripts.SampleSuite1"/>
+    </classes>
+</test>
+</suite>

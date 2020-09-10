@@ -6,6 +6,7 @@ import com.company.test.automation.ui.framework.utils.AutomationConfiguration;
 import com.company.test.automation.ui.framework.utils.WebDriverFactory;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
+import org.testng.ITestContext;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -22,11 +23,8 @@ public class SampleSuite1 {
     private static String WEBDRIVER_PAGE_URL = "https://webdriver.io/";
 
     @BeforeTest
-    public void init() {
-        automationConfiguration = new AutomationConfiguration();
-        automationConfiguration.setBrowserName("chrome");
-        automationConfiguration.setWebDriverPath("/Users/fangzhouyuan/Downloads");
-        automationConfiguration.setImplicitWaitTime(5L);
+    public void init(ITestContext context) {
+        automationConfiguration = new AutomationConfiguration(context);
     }
 
     @Test
